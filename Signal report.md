@@ -1,5 +1,3 @@
-package com.company;
-
 import java.util.Scanner;
 
 public class Main {
@@ -7,7 +5,6 @@ public class Main {
     public static void main(String[] args) {
         int size1 = 6;
         String[] myList1 = new String[size1];
-        myList1[0] = null;
         myList1[1] = "unreadable";
         myList1[2] = "barely readable,occasional words distinguishable";
         myList1[3] = "readable with considerable difficulty";
@@ -15,7 +12,6 @@ public class Main {
         myList1[5] = "perfectly readable";
         int size2 = 10;
         String[] myList2 = new String[size2];
-        myList2[0] = null;
         myList2[1] = "Faint signals,barely perceptible";
         myList2[2] = "Very weak signals";
         myList2[3] = "Weak signals";
@@ -29,17 +25,11 @@ public class Main {
         int RS = in.nextInt();
         int R = RS/10;
         int S = RS%10;
-        if(S>0&&S<10)
-        {
-            System.out.print(myList2[S]+",");
-        }else {
-            System.out.println("please enter valid data.");
+        while (11>=RS || RS>=59) {
+            System.out.println("Please enter valid data.");
+            RS = in.nextInt();
         }
-        if(R>0&&R<6)
-        {
-            System.out.println(myList1[R]+".");
-        }else {
-            System.out.println("please enter valid data.");
-        }
+                System.out.print(myList2[S] + ",");
+                System.out.println(myList1[R] + ".");
     }
 }
