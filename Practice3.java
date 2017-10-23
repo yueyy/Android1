@@ -1,6 +1,8 @@
 import java.util.Scanner;
 
-// 实例化
+/* 实例化
+封装 限制对属性的访问
+*/
 public class Purchase {
 
     private double groundPrice;
@@ -14,7 +16,7 @@ public class Purchase {
     }
 
 
-//  构造器
+
     public void setPrice(int count, double costForCount){
         if((count <=0)||(costForCount <=0)){
             System.out.println("");
@@ -69,8 +71,11 @@ public class Purchase {
         System.out.println("at "+ groundCount +"for $"+groundPrice);
     }
 
-// JAVA bean
-// 用get方法把值取出
+
+/*
+这也是封装
+getter、setter 创建赋值取值方法，用于对私有属性的访问
+*/
 
     public String getName(){
         return name;
