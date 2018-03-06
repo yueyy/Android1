@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Demo</string>
+    <string name="login">登录</string>
+    <string name="sign_up">注册</string>
+    <string name="to_sign_up">注册一个账号</string>
+    <string name="to_login">已有账号</string>
+    <string name="tab_cate">美食</string>
+    <string name="tab_hotel">酒店</string>
+    <string name="tab_view">景点</string>
+    <string name="tv_intro">介绍</string>
+    <string name="tv_geo">是否开启定位</string>
+    <string name="tv_search">搜索</string>
+    <string name="tv_rank">排名</string>
+    <string name="tv_service">周边服务</string>
+    <string name="view_intro">景点介绍</string>
+    <string name="view_ticket">门票</string>
+    <string name="view_strategy">目的地攻略</string>
+    <string name="view_path">路线推荐</string>
+    <string name="hotel_intro">酒店介绍</string>
+    <string name="cate_intro">饭店介绍</string>
+    <string name="hint_account">账号</string>
+    <string name="hint_password">密码</string>
+    <string name="hint_search">请输入搜索内容</string>
+
+
+</resources>

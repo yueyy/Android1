@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Birthday</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="account">account</string>
+    <string name="password">password</string>
+    <string name="login">Login</string>
+    <string name="create_account">Create your account</string>
+    <string name="already_member">Already have an account</string>
+    <string name="remember">remember password</string>
+    <string name="name">Name</string>
+    <string name="date">Date</string>
+    <string name="rating">Rating</string>
+    <string name="id">Name</string>
+</resources>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout    xmlns:android="http://schemas.android.com/apk/res/android"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:background="@color/colorLightBackground">
+
+    <CalendarView
+        android:id="@+id/calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxDate="31/12/2017"
+        android:minDate="01/12/2017"
+        android:firstDayOfWeek="1"
+        android:background="@color/colorCalendarBackground"
+        android:shownWeekCount="5">
+    </CalendarView>
+
+    <RelativeLayout
+        android:id="@+id/birthday_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/calendar"
+        android:textColor="@color/colorBlack">
+
+        <TextView
+            android:id="@+id/whose_birthday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name"
+            android:textColor="@color/colorBlack"/>
+        <TextView
+            android:id="@+id/whose_birthday_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date"
+            android:textColor="@color/colorBlack"
+            android:layout_centerHorizontal="true"/>
+        <TextView
+            android:id="@+id/whose_birthday_if_necessary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rating"
+            android:textColor="@color/colorBlack"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/list_birthday"
+        android:layout_below="@+id/birthday_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</RelativeLayout>
