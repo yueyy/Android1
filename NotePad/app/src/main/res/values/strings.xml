@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Notepad</string>
+    <string name="action_settings">settings</string>
+    <string name="action_back">Back</string>
+    <string name="action_search">Input a title what you want to find.</string>
+    <string name="btn_save">save</string>
+    <string name="btn_search">search</string>
+    <string name="btn_noteList">List</string>
+    <string name="btn_add">Add</string>
+    <string name="btn_delete">Delete</string>
+    <string name="btn_update">Update</string>
+</resources>
