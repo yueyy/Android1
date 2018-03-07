@@ -39,6 +39,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp">
                 <TextView
+                    android:id="@+id/hotel_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{hotel.name}"
@@ -53,6 +54,7 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="18sp"/>
                 <TextView
+                    android:id="@+id/hotel_intro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorSub"

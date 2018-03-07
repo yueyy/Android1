@@ -4,13 +4,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yue.demo.R;
-import com.example.yue.demo.adapter.HotelAdapter;
+import com.example.yue.demo.adapter.ItemAdapter;
 import com.example.yue.demo.data.Hotel;
 import com.example.yue.demo.util.SpaceItemDecoration;
 
@@ -25,7 +24,7 @@ import io.realm.Realm;
 
 public class FragmentHotel extends Fragment {
     private static final String TAG = "fragmentHotel";
-    private HotelAdapter mHotelAdapter;
+    private ItemAdapter mAdapter;
     private LinearLayoutManager mManager;
     private RecyclerView mRecycleView;
     private List<Hotel> mHotelList = new ArrayList<>();
@@ -39,9 +38,8 @@ public class FragmentHotel extends Fragment {
         mRecycleView.setLayoutManager(mManager);
         mRealm = Realm.getDefaultInstance();
         mHotelList = mRealm.where(Hotel.class).findAll();
-        Log.i(TAG, "onCreateView: "+mHotelList.toString());
-        mHotelAdapter = new HotelAdapter(getContext(),mHotelList);
-        mRecycleView.setAdapter(mHotelAdapter);
+        mAdapter = new ItemAdapter(getContext(),mHotelList);
+        mRecycleView.setAdapter(mAdapter);
         mRecycleView.addItemDecoration(new SpaceItemDecoration(10));
 
         return view;

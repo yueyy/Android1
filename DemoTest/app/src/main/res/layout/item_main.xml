@@ -3,13 +3,13 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/ll_main"
+    android:id="@+id/ll_item"
     android:layout_marginStart="5dp"
     android:layout_marginEnd="16dp"
     android:background="@color/colorBackground">
 
     <ImageView
-        android:id="@+id/main_img"
+        android:id="@+id/item_pic"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -21,20 +21,28 @@
         android:layout_height="wrap_content"
         android:layout_weight="3.5"
         android:orientation="vertical"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="5dp"
         >
         <TextView
-            android:id="@+id/main_name"
+            android:id="@+id/item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp"
             />
         <TextView
-            android:id="@+id/main_intro"
+            android:id="@+id/item_ticket"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="3"
+            android:textColor="@color/colorPrice"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:id="@+id/item_intro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
             android:textColor="@color/colorSub"
             />
     </LinearLayout>

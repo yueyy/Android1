@@ -18,10 +18,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.yue.demo.R;
-import com.example.yue.demo.adapter.CateAdapter;
 import com.example.yue.demo.adapter.FragmentAdapter;
-import com.example.yue.demo.adapter.HotelAdapter;
-import com.example.yue.demo.adapter.ViewAdapter;
+import com.example.yue.demo.adapter.ItemAdapter;
 import com.example.yue.demo.data.Cate;
 import com.example.yue.demo.data.Hotel;
 import com.example.yue.demo.data.View;
@@ -38,16 +36,19 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmObject;
 import io.realm.RealmResults;
 
-public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
+public class MainActivity<T extends RealmObject> extends AppCompatActivity implements ViewPager.OnPageChangeListener{
 
     public static final String TAG = "main";
     private ViewPager mViewPager;
+
     private TabLayout mTabLayout;
     private FragmentAdapter mFragmentAdapter;
     private Toolbar mToolbar;
@@ -102,14 +103,16 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);
         mTabLayout.setupWithViewPager(mViewPager);
 
-
+        mManager = new LinearLayoutManager(getApplicationContext());
+        mRealm = Realm.getDefaultInstance();
+        mRecyclerView.setLayoutManager(mManager);
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu,menu);
-        MenuItem item = menu.findItem(R.id.menu_search);
+        final MenuItem item = menu.findItem(R.id.menu_search);
         final SearchView mSearchView = (SearchView) item.getActionView();
 
         mSearchView.setQueryHint("请输入要查找的内容");
@@ -131,65 +134,64 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                List<RealmObject> newList = new ArrayList<>();
                 mSearchView.setIconified(false);
-                mManager = new LinearLayoutManager(getApplicationContext());
-                mRecyclerView.setLayoutManager(mManager);
-                mRealm = Realm.getDefaultInstance();
-                RealmResults<Cate> cates = mRealm.where(Cate.class).equalTo("name",query).findAll();
-                RealmResults<Hotel> hotels = mRealm.where(Hotel.class).equalTo("name",query).findAll();
-                RealmResults<View> views = mRealm.where(View.class).equalTo("name",query).findAll();
-                if (!cates.isEmpty()){
-                    CateAdapter mCateAdapter = new CateAdapter(getApplicationContext(),cates);
-                    Log.i(TAG, "onQueryTextSubmit: "+cates);
-                    mRecyclerView.setAdapter(mCateAdapter);
-                    changeView();
-                }else if (!hotels.isEmpty()){
-                    HotelAdapter mHotelAdapter = new HotelAdapter(getApplicationContext(),hotels);
-                    Log.i(TAG, "onQueryTextSubmit: "+hotels);
-                    mRecyclerView.setAdapter(mHotelAdapter);
-                    changeView();
-                }else if (!views.isEmpty()){
-                    ViewAdapter mViewAdapter = new ViewAdapter(getApplicationContext(),views);
-                    Log.i(TAG, "onQueryTextSubmit: "+views);
-                    mRecyclerView.setAdapter(mViewAdapter);
-                    changeView();
+                mCateList = mRealm.where(Cate.class)
+                        .contains("name",query).findAll();
+                mHotelList = mRealm.where(Hotel.class).contains("name",query).findAll();
+                mViewList = mRealm.where(View.class).contains("name",query).findAll();
+                newList.addAll(mCateList);
+                newList.addAll(mHotelList);
+                newList.addAll(mViewList);
+                if (!query.isEmpty() ) {
+                    List<RealmObject> list = new ArrayList<>();
+                    for (RealmObject r : newList){
+                        if (!list.contains(r)) {
+                            list.add(r);
+                        }
+                    }
+                    if (!list.isEmpty()) {
+                        ItemAdapter itemAdapter = new ItemAdapter(getApplicationContext(), list);
+                        Log.i(TAG, "onQueryTextSubmit: " + list);
+                        mRecyclerView.setAdapter(itemAdapter);
+                        removeViewPager();
+                    }else {
+                        recoverView();
+                    }
                 }else {
-                    Toast.makeText(getApplicationContext(),"无查询结果",Toast.LENGTH_SHORT).show();
+                    recoverView();
                 }
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (!newText.isEmpty()) {
-                    mSearchView.setIconified(false);
-                    mManager = new LinearLayoutManager(getApplicationContext());
-                    mRecyclerView.setLayoutManager(mManager);
-                    mRealm = Realm.getDefaultInstance();
-                    RealmResults<Cate> cates = mRealm.where(Cate.class).like("name", newText).findAll();
-                    RealmResults<Hotel> hotels = mRealm.where(Hotel.class).like("name", newText).findAll();
-                    RealmResults<View> views = mRealm.where(View.class).like("name", newText).findAll();
-                    if (!cates.isEmpty()) {
-                        CateAdapter mCateAdapter = new CateAdapter(getApplicationContext(), cates);
-                        Log.i(TAG, "onQueryTextSubmit: " + cates);
-                        mRecyclerView.setAdapter(mCateAdapter);
-                        changeView();
-                    } else if (!hotels.isEmpty()) {
-                        HotelAdapter mHotelAdapter = new HotelAdapter(getApplicationContext(), hotels);
-                        Log.i(TAG, "onQueryTextSubmit: " + hotels);
-                        mRecyclerView.setAdapter(mHotelAdapter);
-                        changeView();
-                    } else if (!views.isEmpty()) {
-                        ViewAdapter mViewAdapter = new ViewAdapter(getApplicationContext(), views);
-                        Log.i(TAG, "onQueryTextSubmit: " + views);
-                        mRecyclerView.setAdapter(mViewAdapter);
-                        changeView();
-                    } else {
-//                    Toast.makeText(getApplicationContext(),"无查询结果",Toast.LENGTH_SHORT).show();
+                List<RealmObject> newList = new ArrayList<>();
+                mSearchView.setIconified(false);
+                mCateList = mRealm.where(Cate.class)
+                        .contains("name",newText).findAll();
+                mHotelList = mRealm.where(Hotel.class).contains("name",newText).findAll();
+                mViewList = mRealm.where(View.class).contains("name",newText).findAll();
+                newList.addAll(mCateList);
+                newList.addAll(mHotelList);
+                newList.addAll(mViewList);
+                if (!newText.isEmpty() ) {
+                    List<RealmObject> list = new ArrayList<>();
+                    for (RealmObject r : newList){
+                        if (!list.contains(r)) {
+                            list.add(r);
+                        }
+                    }
+                    if (!list.isEmpty()) {
+                        ItemAdapter itemAdapter = new ItemAdapter(getApplicationContext(), list);
+                        Log.i(TAG, "onQueryTextSubmit: " + list);
+                        mRecyclerView.setAdapter(itemAdapter);
+                        removeViewPager();
+                    }else {
+                        recoverView();
                     }
                 }else {
-                    mViewPager.setVisibility(android.view.View.VISIBLE);
-                    mRecyclerView.setVisibility(android.view.View.GONE);
+                    recoverView();
                 }
                 return true;
             }
@@ -197,10 +199,15 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void changeView(){
+    private void removeViewPager(){
         mViewPager.setVisibility(android.view.View.GONE);
         mRecyclerView.setVisibility(android.view.View.VISIBLE);
         mRecyclerView.addItemDecoration(new SpaceItemDecoration(10));
+    }
+
+    private void recoverView(){
+        mViewPager.setVisibility(android.view.View.VISIBLE);
+        mRecyclerView.setVisibility(android.view.View.GONE);
     }
 
     public static boolean isOPen(final Context context) {

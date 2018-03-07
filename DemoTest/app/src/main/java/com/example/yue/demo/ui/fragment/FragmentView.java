@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yue.demo.R;
-import com.example.yue.demo.adapter.ViewAdapter;
+import com.example.yue.demo.adapter.ItemAdapter;
 import com.example.yue.demo.util.SpaceItemDecoration;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ import io.realm.Realm;
 
 public class FragmentView extends Fragment {
     private static final String TAG = "fragmentHotel";
-    private ViewAdapter mViewAdapter;
+    private ItemAdapter mItemAdapter;
     private LinearLayoutManager mManager;
     private RecyclerView mRecycleView;
     private List<com.example.yue.demo.data.View> mViewList = new ArrayList<>();
@@ -38,9 +38,8 @@ public class FragmentView extends Fragment {
         mRecycleView.setLayoutManager(mManager);
         mRealm = Realm.getDefaultInstance();
         mViewList = mRealm.where(com.example.yue.demo.data.View.class).findAll();
-        Log.i(TAG, "onCreateView: "+mViewList.toString());
-        mViewAdapter = new ViewAdapter(getContext(),mViewList);
-        mRecycleView.setAdapter(mViewAdapter);
+        mItemAdapter = new ItemAdapter(getContext(),mViewList);
+        mRecycleView.setAdapter(mItemAdapter);
         mRecycleView.addItemDecoration(new SpaceItemDecoration(10));
 
         return view;

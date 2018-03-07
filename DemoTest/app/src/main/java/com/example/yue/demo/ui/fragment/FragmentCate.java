@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.yue.demo.R;
-import com.example.yue.demo.adapter.CateAdapter;
+import com.example.yue.demo.adapter.ItemAdapter;
 import com.example.yue.demo.data.Cate;
 import com.example.yue.demo.util.SpaceItemDecoration;
 
@@ -25,7 +25,7 @@ import io.realm.Realm;
 
 public class FragmentCate extends Fragment {
 
-    private CateAdapter mCateAdapter;
+    private ItemAdapter mAdapter;
     private LinearLayoutManager mManager;
     private RecyclerView mRecycleView;
     private List<Cate> mCateList = new ArrayList<>();
@@ -39,8 +39,8 @@ public class FragmentCate extends Fragment {
         mRecycleView.setLayoutManager(mManager);
         mRealm = Realm.getDefaultInstance();
         mCateList = mRealm.where(Cate.class).findAll();
-        mCateAdapter = new CateAdapter(getContext(),mCateList);
-        mRecycleView.setAdapter(mCateAdapter);
+        mAdapter = new ItemAdapter(getContext(),mCateList);
+        mRecycleView.setAdapter(mAdapter);
         mRecycleView.addItemDecoration(new SpaceItemDecoration(10));
 
         return view;
